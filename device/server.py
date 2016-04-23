@@ -1,4 +1,5 @@
 import sys
+import time
 
 # Add the submodule to the list of paths. This way, we can import rgbmatrix.
 sys.path.insert(0, '/home/pi/ipwa/matrix')
@@ -6,21 +7,29 @@ sys.path.insert(0, '/home/pi/ipwa/matrix')
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 from rgbmatrix import Adafruit_RGBmatrix
 
+matrix = Adafruit_RGBmatrix(16, 1)
+
+
+
 
 class SimpleEcho(WebSocket):
 
     def handleMessage(self):
-        # echo message back to client
-        self.sendMessage(self.data)
+        values = eval(self.data, {'os': None})
+        for rowIndex, row in enumerate(values):
+            for colIndex, col in enumerate(row):
+                r = col[0]
+                g = col[1]
+                b = col[2]
+
+                matrix.SetPixel(rowIndex, colIndex, r, g, b)
+
 
     def handleConnected(self):
         print self.address, 'connected'
 
     def handleClose(self):
         print self.address, 'closed'
-
-print "Loaded!"
-print Adafruit_RGBmatrix
 
 server = SimpleWebSocketServer('', 1337, SimpleEcho)
 server.serveforever()
