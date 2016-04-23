@@ -1,0 +1,11 @@
+{
+  "name": "ipwa",
+  "version": "1.0.0",
+  "description": "Internet-Powered Wall Art",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joshua Comeau",
+  "license": "MIT"
+}
