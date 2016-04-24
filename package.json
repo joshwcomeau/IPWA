@@ -25,6 +25,7 @@
     "body-parser": "^1.15.0",
     "classnames": "^2.2.3",
     "express": "^4.13.4",
+    "gm": "^1.22.0",
     "immutable": "^3.8.1",
     "lodash": "^4.11.1",
     "moment": "^2.13.0",
