@@ -4,7 +4,7 @@ import { render }   from 'react-dom';
 import { Provider } from 'react-redux';
 
 import configureStore from './store';
-import Home from './components/Home';
+import Layout         from 'components/Layout';
 
 // TODO: Change to import, if possible
 require('./scss/main.scss');
@@ -13,6 +13,6 @@ const store = configureStore();
 
 render((
   <Provider store={store}>
-    <Home />
+    <Layout />
   </Provider>
 ), document.getElementById('render-target'))
