@@ -6,10 +6,14 @@ import DrawingBoard from 'components/DrawingBoard';
 
 
 const MainContent = props => (
-  <section>
-    <Palette />
-    <UploadButton />
-    <DrawingBoard />
+  <section id="main-content">
+    <div id="first-row">
+      <Palette />
+      <UploadButton />
+    </div>
+    <div id="second-row">
+      <DrawingBoard />
+    </div>
   </section>
 );
 

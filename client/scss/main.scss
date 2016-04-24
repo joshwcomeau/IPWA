@@ -1,2 +1,29 @@
 @import 'variables';
 @import 'reset';
+
+@import 'header';
+@import 'footer';
+@import 'palette';
+@import 'swatch';
+
+body {
+  background: $white;
+  color: $mediumgrey;
+}
+
+body, input, textarea, select {
+  font-family: 'Roboto', monospace;
+}
+
+#main-content {
+
+  #first-row {
+    display: flex;
+    padding: 1rem 3rem;
+    background: $darkgrey;
+  }
+  #second-row {
+    padding: 3rem;
+    background: $black;
+  }
+}
