@@ -1,2 +1,14 @@
 @import 'variables';
 @import 'reset';
+
+@import 'header';
+@import 'footer';
+
+body {
+  background: $white;
+  color: $medium-grey;
+}
+
+body, input, textarea, select {
+  font-family: 'Roboto', monospace;
+}

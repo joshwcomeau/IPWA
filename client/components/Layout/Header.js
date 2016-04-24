@@ -1,10 +1,15 @@
 import React, { PropTypes } from 'react';
 
 const Header = props => (
-  <header>
-    <h1>IPWA</h1>
-    <h3>Internet-Powered Wall Art</h3>
-    <h5>Upload or paint a picture below. It will be displayed in my kitchen.</h5>
+  <header id="header">
+    <h3 className="title">Internet-Powered Wall Art</h3>
+    <p className="intro">
+      Paint or upload a picture below.
+      <br />
+      It will be displayed in my kitchen.
+      <br />
+      (Yes, this is almost certainly a terrible idea.)
+    </p>
   </header>
 );
 
