@@ -5,7 +5,7 @@ import { Map, List, fromJS } from 'immutable';
 
 
 const initialState = fromJS({
-  pixels: []
+  selectedColour: null
 });
 
 
