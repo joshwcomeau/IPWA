@@ -51,6 +51,6 @@ module.exports = {
 
   resolve: {
     extensions: ['', '.js', '.jsx', '.sass'],
-    modulesDirectories: ['node_modules']
+    modulesDirectories: ['node_modules', 'client']
   }
 }
