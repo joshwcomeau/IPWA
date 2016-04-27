@@ -1,10 +1,10 @@
-import { createStore, applyMiddleware, compose }  from 'redux';
-import thunkMiddleware                            from 'redux-thunk';
-import Immutable                                  from 'immutable';
-import installDevTools                            from 'immutable-devtools';
+import { createStore, applyMiddleware, compose } from 'redux';
+import Immutable          from 'immutable';
+import installDevTools    from 'immutable-devtools';
+import { apiMiddleware }  from 'redux-api-middleware';
 
-import rootReducer                    from '../reducers';
-import DevTools                       from '../components/DevTools';
+import rootReducer from '../reducers';
+import DevTools    from '../components/DevTools';
 
 import Perf from 'react-addons-perf';
 window.Perf = Perf;
@@ -14,7 +14,7 @@ installDevTools(Immutable);
 
 export default function configureStore() {
   const middlewares = [
-    thunkMiddleware
+    apiMiddleware
   ];
 
   const store = createStore(
