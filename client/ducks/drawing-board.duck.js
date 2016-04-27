@@ -14,9 +14,7 @@ const initialState = fromJS({
 ///////////////////////////
 // ACTION TYPES //////////
 /////////////////////////
-export const PAINT_PIXEL  = 'PAINT_PIXEL';
-export const ERASE_PIXEL  = 'ERASE_PIXEL';
-export const CLEAR_BOARD  = 'CLEAR_BOARD';
+export const UPDATE_DRAWING_BOARD  = 'UPDATE_DRAWING_BOARD';
 
 
 ///////////////////////////
@@ -24,12 +22,8 @@ export const CLEAR_BOARD  = 'CLEAR_BOARD';
 /////////////////////////
 export default function drawingBoard(state = initialState, action) {
   switch ( action.type ) {
-    case PAINT_PIXEL:
-      // TODO
-    case ERASE_PIXEL:
-      // TODO
-    case CLEAR_BOARD:
-      // TODO
+    case UPDATE_DRAWING_BOARD:
+      return state.set('pixels', action.board);
     default:
       return state;
   };
@@ -39,23 +33,9 @@ export default function drawingBoard(state = initialState, action) {
 ///////////////////////////
 // ACTION CREATORS ///////
 /////////////////////////
-export function paintPixel(coordinates, colour) {
+export function updateDrawingBoard(board) {
   return {
-    type: PAINT_PIXEL,
-    coordinates,
-    colour
-  };
-}
-
-export function erasePixel(coordinates) {
-  return {
-    type: ERASE_PIXEL,
-    coordinates
-  };
-}
-
-export function clearBoard() {
-  return {
-    type: CLEAR_BOARD
+    type: UPDATE_DRAWING_BOARD,
+    board
   };
 }
