@@ -1,7 +1,4 @@
 import React, { PropTypes, Component }  from 'react';
-import { bindActionCreators }           from 'redux';
-import { connect }                      from 'react-redux';
-import { updateDrawingBoard } from 'ducks/drawing-board.duck';
 
 import Palette      from 'components/Palette';
 import UploadButton from 'components/UploadButton';
@@ -20,7 +17,7 @@ class MainContent extends Component {
           <DrawingBoard
             style={{border: '1px solid #000'}}
             paintColor='#CCCCCC'
-            onChange={this.props.actions.updateDrawingBoard}
+            onChange={this.todo}
           />
         </div>
       </section>
@@ -28,16 +25,4 @@ class MainContent extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    drawingBoard: state.get('drawingBoard')
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  const actions = bindActionCreators({ updateDrawingBoard }, dispatch);
-
-  return { actions };
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( MainContent );
+export default MainContent;
