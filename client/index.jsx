@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 
 import configureStore from 'store';
 import Layout         from 'components/Layout';
+import DevTools       from 'components/DevTools';
 
 // TODO: Change to import, if possible
 require('./scss/main.scss');
@@ -13,6 +14,9 @@ const store = configureStore();
 
 render((
   <Provider store={store}>
-    <Layout />
+    <div>
+      <DevTools />
+      <Layout />
+    </div>
   </Provider>
 ), document.getElementById('render-target'))
