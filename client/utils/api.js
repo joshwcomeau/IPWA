@@ -1,11 +1,24 @@
 // There are really only two necessary API endpoints:
 //   - submit a photo for processing
 //   - submit a pixel matrix for display
-//
-// The actual API logic is covered by redux-api-middleware,
-// but is made complicated by the introduction of a form upload.
-// Some logic may or may not live here. TBD.
 
-const API = {
+export async function submitPixelMatrix(cells, callback) {
+  try {
+    const url = '/pixel-matrix';
 
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({cells})
+    })
+
+    console.log("Response", response)
+
+    return callback(response);
+  } catch (err) {
+    console.error("Oh no!", err)
+  }
 }
