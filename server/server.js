@@ -5,6 +5,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import bodyParser           from 'body-parser';
 
+import routes from './routes';
 import config from '../webpack.dev';
 
 
@@ -25,9 +26,7 @@ app.use(webpackDevMiddleware(bundler, {
 
 app.use(webpackHotMiddleware(bundler));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
-})
+routes(app);
 
 app.listen(port, err => {
   err ? console.error(error) : console.info(`🌎  Listening on port ${port}`)
