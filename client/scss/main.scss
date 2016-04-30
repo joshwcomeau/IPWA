@@ -17,14 +17,27 @@ body, input, textarea, select {
 }
 
 #main-content {
+  display: flex;
+  justify-content: center;
+  background: $darkgrey;
+  padding: 3rem;
 
-  #first-row {
-    display: flex;
-    padding: 1rem 3rem;
-    background: $darkgrey;
+  // DrawingBoard
+  #main-panel {
+    border: 1rem solid #000000;
+    margin-right: 1rem;
+
+    canvas { display: block; }
   }
-  #second-row {
-    padding: 3rem;
-    background: $black;
+
+  #side-panel {
+    flex: 0 0 200px;
+
+    .panel-box-header {
+      padding: 0.5rem 1rem;
+      background: lighten($black, 5%);
+      font-size: 14px;
+      color: $white;
+    }
   }
 }

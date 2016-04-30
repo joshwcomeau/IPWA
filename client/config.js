@@ -3,7 +3,6 @@ export const MATRIX_WIDTH = 32;
 export const MATRIX_HEIGHT = 16;
 
 export const PALETTE_COLOURS = [
-  '#7abb1b',
   '#fbdd12',
   '#ebb113',
   '#e27913',
@@ -19,6 +18,7 @@ export const PALETTE_COLOURS = [
   '#32cbe2',
   '#2ad5bb',
   '#31cc7a',
+  '#7abb1b',
   '#FFFFFF',
-  '#AAAAAA'
+  null
 ];

@@ -9,12 +9,11 @@ class Palette extends Component {
     return PALETTE_COLOURS.map( (color, i) => (
       <Swatch
         key={i}
+        width={27}
+        height={27}
         color={color}
         selected={this.props.selectedColor === color}
-        onClick={() => {
-          console.log("Click!", color)
-          this.props.onChange(color)
-        }}
+        onClick={() => this.props.onChange(color)}
       />
     ));
   }
