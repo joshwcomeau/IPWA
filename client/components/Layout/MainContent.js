@@ -16,11 +16,17 @@ class MainContent extends Component {
     super(props);
 
     this.state = {
-      cells: generateGrid(32, 16)
+      cells: generateGrid(32, 16),
+      selectedColor: '#ffffff'
     };
 
     this.updateCells = this.updateCells.bind(this);
+    this.updateSelectedColor = this.updateSelectedColor.bind(this);
     this.sendCellsToDevice = debounce(this.sendCellsToDevice, 500);
+  }
+
+  updateSelectedColor(color) {
+    this.setState({ selectedColor: color});
   }
 
   updateCells(coords, eventType) {
@@ -28,7 +34,7 @@ class MainContent extends Component {
     switch (eventType) {
       case 'left-click':
         cells = modifyCell(this.state.cells, {
-          newValue: '#FF0000',
+          newValue: this.state.selectedColor,
           ...coords
         });
         this.setState({ cells })
@@ -44,7 +50,7 @@ class MainContent extends Component {
 
   sendCellsToDevice() {
     submitPixelMatrix(this.state.cells, response => {
-      console.log("Matrix response", response, arguments)
+      // TODO: Error handling
     })
   }
 
@@ -52,8 +58,10 @@ class MainContent extends Component {
     return (
       <section id="main-content">
         <div id="first-row">
-          <Palette />
-          <UploadButton />
+          <Palette
+            selectedColor={this.state.selectedColor}
+            onChange={this.updateSelectedColor}
+          />
         </div>
         <div id="second-row">
           <DrawingBoard

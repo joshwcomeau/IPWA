@@ -1,10 +1,8 @@
 import path from 'path';
-import { prepareGrid } from './utils/grid';
 
-// Set up our websocket client
-// TODO: Move this to its own module
-import WebSocket from 'ws';
-const ws = new WebSocket('ws://192.168.1.115:1337');
+import { prepareGrid } from './utils/grid';
+import ws from './websocket-client';
+
 
 export default function(app) {
   app.get('*', (req, res) => {

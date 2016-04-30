@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
 
 
-const Swatch = ({colour}) => (
-  <div className="swatch">
-    <div className="swatch-inner" style={{ backgroundColor: colour }} />
+const Swatch = ({color, onClick}) => (
+  <div className="swatch" onClick={onClick}>
+    <div className="swatch-inner" style={{ backgroundColor: color }} />
   </div>
 )
 
 Swatch.propTypes = {
-  colour: PropTypes.string.isRequired
+  color: PropTypes.string.isRequired
 }
 
 export default Swatch;
