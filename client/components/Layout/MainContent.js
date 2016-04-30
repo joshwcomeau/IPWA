@@ -1,11 +1,53 @@
 import React, { PropTypes, Component }  from 'react';
+import debounce from 'lodash/debounce';
+import {
+  generateGrid,
+  modifyCell,
+  DrawingBoard
+} from 'react-pixel-art';
 
+import { submitPixelMatrix } from 'utils/api'
 import Palette      from 'components/Palette';
 import UploadButton from 'components/UploadButton';
-import DrawingBoard from 'components/DrawingBoard';
 
 
 class MainContent extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      cells: generateGrid(32, 16)
+    };
+
+    this.updateCells = this.updateCells.bind(this);
+    this.sendCellsToDevice = debounce(this.sendCellsToDevice, 500);
+  }
+
+  updateCells(coords, eventType) {
+    let cells;
+    switch (eventType) {
+      case 'left-click':
+        cells = modifyCell(this.state.cells, {
+          newValue: '#FF0000',
+          ...coords
+        });
+        this.setState({ cells })
+        break;
+      case 'right-click':
+        cells = modifyCell(this.state.cells, coords);
+        this.setState({ cells })
+        break;
+    }
+
+    this.sendCellsToDevice();
+  }
+
+  sendCellsToDevice() {
+    submitPixelMatrix(this.state.cells, response => {
+      console.log("Matrix response", response, arguments)
+    })
+  }
+
   render() {
     return (
       <section id="main-content">
@@ -15,9 +57,10 @@ class MainContent extends Component {
         </div>
         <div id="second-row">
           <DrawingBoard
-            style={{border: '1px solid #000'}}
-            paintColor='#CCCCCC'
-            onChange={this.todo}
+            width={640}
+            height={320}
+            cells={this.state.cells}
+            onChange={this.updateCells}
           />
         </div>
       </section>
