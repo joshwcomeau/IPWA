@@ -22,7 +22,7 @@ class SimpleEcho(WebSocket):
                 g = col[1]
                 b = col[2]
 
-                matrix.SetPixel(rowIndex, colIndex, r, g, b)
+                matrix.SetPixel(colIndex, rowIndex, r, g, b)
 
 
     def handleConnected(self):

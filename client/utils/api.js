@@ -15,8 +15,6 @@ export async function submitPixelMatrix(cells, callback) {
       body: JSON.stringify({cells})
     })
 
-    console.log("Response", response)
-
     return callback(response);
   } catch (err) {
     console.error("Oh no!", err)
