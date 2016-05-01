@@ -1,5 +1,6 @@
 // Allow ES6 on the server-side.
 require('babel-core/register');
+require('babel-polyfill');
 
 // require('./initialize');
 

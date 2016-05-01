@@ -1,10 +1,16 @@
-import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
 import imageMagick from 'imagemagick-native';
 
 import { prepareGrid } from './utils/grid';
+import { getPathForNewFile } from './utils/file';
 import { getPixelsFromImage } from './utils/image';
+import {
+  readFilePromise,
+  writeFilePromise,
+  imageMagickConvertPromise
+} from './utils/general';
+
 import ws from './websocket-client';
 
 
@@ -19,32 +25,35 @@ export default function(app) {
   app.post('/pixel-matrix', ({body}, res) => {
     const grid = prepareGrid(body.cells);
     ws.send(JSON.stringify(grid));
-    res.json({ ok: true })
+    res.json({ ok: true });
   });
 
-  app.post('/process-upload', upload.single('image'), (req, res) => {
-    console.log("Received image", req.file);
+  app.post('/process-upload', upload.single('image'), async (req, res) => {
+    let pixels;
 
-    // Get the filename without extension.
-    // Inaccurate if the filename has multiple dots, but that's fine.
-    const [filename] = req.file.originalname.split('.');
-    const pathToNewFile = path.join(__dirname, `/uploads/${Date.now()}_${filename}.ppm`);
+    try {
+      const originalFileBuffer = await readFilePromise(req.file.path);
+      const smallFileBuffer = await imageMagickConvertPromise({
+        srcData: originalFileBuffer,
+        width: 32,
+        height: 16,
+        format: 'PNG'
+      });
 
-    fs.writeFileSync(pathToNewFile, imageMagick.convert({
-      srcData: fs.readFileSync(req.file.path),
-      width: 32,
-      height: 16,
-      format: 'PNG'
-    }));
+      pixels = imageMagick.getConstPixels({
+        srcData: smallFileBuffer,
+        x: 0,
+        y: 0,
+        columns: 32,
+        rows: 16
+      });
 
-    const pixels = imageMagick.getConstPixels({
-      srcData: fs.readFileSync(pathToNewFile),
-      x: 0,
-      y: 0,
-      columns: 32,
-      rows: 16
-    });
+      await writeFilePromise(getPathForNewFile(req.file), smallFileBuffer);
 
-    return res.json({ done: true, pixels})
+    } catch (err) {
+      throw err;
+    }
+
+    res.json({ done: true, pixels })
   });
 }
