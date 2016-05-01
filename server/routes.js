@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
-import gm from 'gm';
+import imageMagick from 'imagemagick-native';
 
 import { prepareGrid } from './utils/grid';
 import { getPixelsFromImage } from './utils/image';
@@ -9,7 +9,7 @@ import ws from './websocket-client';
 
 
 const upload = multer({ dest: 'uploads/' });
-const imageMagick = gm.subClass({ imageMagick: true });
+// const imageMagick = gm.subClass({ imageMagick: true });
 
 export default function(app) {
   app.get('*', (req, res) => {
@@ -30,14 +30,21 @@ export default function(app) {
     const [filename] = req.file.originalname.split('.');
     const pathToNewFile = path.join(__dirname, `/uploads/${Date.now()}_${filename}.ppm`);
 
-    console.log(__dirname)
+    fs.writeFileSync(pathToNewFile, imageMagick.convert({
+      srcData: fs.readFileSync(req.file.path),
+      width: 32,
+      height: 16,
+      format: 'PNG'
+    }));
 
-    gm(req.file.path)
-      .resize(32, 16, '!')
-      .setFormat('ppm')
-      .write(pathToNewFile, err => {
-        if (err) console.error("Ack, process failed\n", err);
-        res.json({ done: true, err })
-      });
+    const pixels = imageMagick.getConstPixels({
+      srcData: fs.readFileSync(pathToNewFile),
+      x: 0,
+      y: 0,
+      columns: 32,
+      rows: 16
+    });
+
+    return res.json({ done: true, pixels})
   });
 }
