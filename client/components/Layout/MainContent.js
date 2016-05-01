@@ -6,7 +6,7 @@ import {
   DrawingBoard
 } from 'react-pixel-art';
 
-import { submitPixelMatrix } from 'utils/api'
+import { submitPixelMatrix, submitFileForProcessing } from 'utils/api';
 import Palette      from 'components/Palette';
 import Swatch      from 'components/Swatch';
 import UploadButton from 'components/UploadButton';
@@ -23,7 +23,8 @@ class MainContent extends Component {
 
     this.updateCells = this.updateCells.bind(this);
     this.updateSelectedColor = this.updateSelectedColor.bind(this);
-    this.sendCellsToDevice = debounce(this.sendCellsToDevice, 500);
+    this.uploadFile = this.uploadFile.bind(this);
+    this.sendCellsToDevice = this.sendCellsToDevice;
   }
 
   updateSelectedColor(color) {
@@ -49,6 +50,18 @@ class MainContent extends Component {
     this.sendCellsToDevice();
   }
 
+  uploadFile(ev, input) {
+    const formData = new FormData();
+    formData.append('image', input.files[0]);
+
+    console.log("File", formData)
+
+    submitFileForProcessing(formData, response => {
+      console.log("Done!", response);
+      // TODO: error handling.
+    });
+  }
+
   sendCellsToDevice() {
     submitPixelMatrix(this.state.cells, response => {
       // TODO: Error handling
@@ -68,7 +81,9 @@ class MainContent extends Component {
           />
         </div>
         <div id="side-panel">
-          <UploadButton />
+
+          <UploadButton onFileSelect={this.uploadFile} />
+
           <div id="palette-wrapper">
             <h4 className="panel-box-header">Palette</h4>
             <Palette

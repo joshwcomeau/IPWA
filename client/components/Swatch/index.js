@@ -49,7 +49,7 @@ const Swatch = ({width, height, color, onClick}) => {
 
 Swatch.propTypes = {
   color: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 }
 
 export default Swatch;
