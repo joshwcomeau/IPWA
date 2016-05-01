@@ -4,7 +4,6 @@ import multer from 'multer';
 import imageMagick from 'imagemagick-native';
 
 import { getPathForNewFile } from './utils/file';
-import { getPixelsFromImage } from './utils/image';
 import { wrapWithPromise } from './utils/general';
 import { prepareGridForPi, readPixelsFromBuffer } from './utils/grid';
 
@@ -41,6 +40,10 @@ export default function(app) {
       pixels = readPixelsFromBuffer(smallFileBuffer)
 
       await writeFilePromise(getPathForNewFile(req.file), smallFileBuffer);
+
+      // TEMP: Send to Pi as well
+      const grid = prepareGridForPi(pixels);
+      ws.send(JSON.stringify(grid));
 
     } catch (err) {
       throw err;

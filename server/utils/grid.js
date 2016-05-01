@@ -25,7 +25,7 @@ export function readPixelsFromBuffer(buffer) {
     '#' + convert.rgb.hex(red, green, blue)
   ))
 
-  pixels = chunk(pixels, 16);
+  pixels = chunk(pixels, 32);
 
   return pixels;
 }
