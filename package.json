@@ -30,6 +30,7 @@
     "immutable": "^3.8.1",
     "lodash": "^4.11.1",
     "moment": "^2.13.0",
+    "multer": "^1.1.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-pixel-art": "0.0.4",
