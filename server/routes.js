@@ -1,21 +1,17 @@
+import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
 import imageMagick from 'imagemagick-native';
 
-import { prepareGrid } from './utils/grid';
 import { getPathForNewFile } from './utils/file';
 import { getPixelsFromImage } from './utils/image';
-import {
-  readFilePromise,
-  writeFilePromise,
-  imageMagickConvertPromise
-} from './utils/general';
+import { wrapWithPromise } from './utils/general';
+import { prepareGridForPi, readPixelsFromBuffer } from './utils/grid';
 
 import ws from './websocket-client';
 
 
 const upload = multer({ dest: 'uploads/' });
-// const imageMagick = gm.subClass({ imageMagick: true });
 
 export default function(app) {
   app.get('*', (req, res) => {
@@ -23,7 +19,7 @@ export default function(app) {
   });
 
   app.post('/pixel-matrix', ({body}, res) => {
-    const grid = prepareGrid(body.cells);
+    const grid = prepareGridForPi(body.cells);
     ws.send(JSON.stringify(grid));
     res.json({ ok: true });
   });
@@ -31,22 +27,18 @@ export default function(app) {
   app.post('/process-upload', upload.single('image'), async (req, res) => {
     let pixels;
 
+    // Convert callback-based modules to promises
+    const readFilePromise = wrapWithPromise(fs.readFile);
+    const writeFilePromise = wrapWithPromise(fs.writeFile);
+    const imageMagickConvertPromise = wrapWithPromise(imageMagick.convert);
+
     try {
       const originalFileBuffer = await readFilePromise(req.file.path);
       const smallFileBuffer = await imageMagickConvertPromise({
-        srcData: originalFileBuffer,
-        width: 32,
-        height: 16,
-        format: 'PNG'
+        srcData: originalFileBuffer, width: 32, height: 16, format: 'PNG'
       });
 
-      pixels = imageMagick.getConstPixels({
-        srcData: smallFileBuffer,
-        x: 0,
-        y: 0,
-        columns: 32,
-        rows: 16
-      });
+      pixels = readPixelsFromBuffer(smallFileBuffer)
 
       await writeFilePromise(getPathForNewFile(req.file), smallFileBuffer);
 

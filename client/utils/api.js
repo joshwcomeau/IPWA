@@ -31,7 +31,11 @@ export async function submitFileForProcessing(formData, callback = noop) {
       body: formData
     })
 
-    return callback(response);
+    const json = await response.json();
+
+    console.log("DOne?!", json)
+
+    return callback(json);
   } catch (err) {
     console.error("Oh no!", err)
   }

@@ -54,10 +54,10 @@ class MainContent extends Component {
     const formData = new FormData();
     formData.append('image', input.files[0]);
 
-    console.log("File", formData)
-
-    submitFileForProcessing(formData, response => {
-      console.log("Done!", response);
+    submitFileForProcessing(formData, json => {
+      if (json) {
+        this.setState({ cells: json.pixels })
+      }
       // TODO: error handling.
     });
   }
