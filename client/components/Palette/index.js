@@ -6,14 +6,14 @@ import Swatch from 'components/Swatch';
 
 class Palette extends Component {
   renderSwatches() {
-    return PALETTE_COLOURS.map( (color, i) => (
+    return PALETTE_COLOURS.map( (swatch, i) => (
       <Swatch
         key={i}
         width={27}
         height={27}
-        color={color}
-        selected={this.props.selectedColor === color}
-        onClick={() => this.props.onChange(color)}
+        swatch={swatch}
+        selected={this.props.selectedColor === swatch}
+        onClick={() => this.props.onChange(swatch)}
       />
     ));
   }

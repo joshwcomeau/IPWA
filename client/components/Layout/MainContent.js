@@ -7,9 +7,11 @@ import {
 } from 'react-pixel-art';
 
 import { submitPixelMatrix, submitFileForProcessing } from 'utils/api';
-import Palette      from 'components/Palette';
-import Swatch      from 'components/Swatch';
+import Palette from 'components/Palette';
+import Swatch from 'components/Swatch';
 import UploadButton from 'components/UploadButton';
+
+import { PALETTE_COLOURS } from 'config';
 
 
 class MainContent extends Component {
@@ -18,7 +20,7 @@ class MainContent extends Component {
 
     this.state = {
       cells: generateGrid(32, 16),
-      selectedColor: '#fbdd12'
+      selectedColor: PALETTE_COLOURS[0]
     };
 
     this.updateCells = this.updateCells.bind(this);
@@ -46,8 +48,6 @@ class MainContent extends Component {
         this.setState({ cells })
         break;
     }
-
-    this.sendCellsToDevice();
   }
 
   uploadFile(ev, input) {
@@ -77,7 +77,8 @@ class MainContent extends Component {
             height={320}
             cells={this.state.cells}
             onChange={this.updateCells}
-            canvasBgColor="#111111"
+            canvasBgColor="#000000"
+            gridLineColor="#111111"
           />
         </div>
         <div id="side-panel">
@@ -94,7 +95,8 @@ class MainContent extends Component {
               <Swatch
                 width={168}
                 height={48}
-                color={this.state.selectedColor}
+                swatch={this.state.selectedColor}
+                showLabel={true}
               />
             </div>
           </div>

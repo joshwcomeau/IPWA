@@ -24,7 +24,7 @@ body, input, textarea, select {
 
   // DrawingBoard
   #main-panel {
-    border: 1rem solid #000000;
+    border: 1rem solid $black;
     margin-right: 1rem;
 
     canvas { display: block; }

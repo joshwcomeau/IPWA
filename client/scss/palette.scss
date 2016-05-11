@@ -9,16 +9,6 @@
       width: 100%;
       height: 3rem;
     }
-
-    &:after {
-      position: absolute;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      content: 'Selected Color';
-      font-size: 12px;
-      color: rgba(255,255,255,0.8);
-      text-shadow: 1px 1px 1px rgba(0,0,0,0.5)
-    }
   }
 
 }

@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
 
 
-const Swatch = ({width, height, color, onClick}) => {
+const Swatch = ({width, height, swatch, onClick, showLabel}) => {
   let innerJsx;
 
   // If the color is 'null', this is our "erase" preset.
   // We want to create a white cell with a red line through it.
   // We'll need to use an SVG for this.
 
-  if ( !color ) {
+  if ( !swatch.color ) {
     innerJsx = (
       <svg
         className="swatch-inner"
@@ -35,8 +35,19 @@ const Swatch = ({width, height, color, onClick}) => {
       </svg>
     )
   } else {
+    const labelJsx = (
+      <div
+        className="swatch-label"
+        style={{color: swatch.labelTextColor}}
+      >
+        {swatch.labelText}
+      </div>
+    )
+
     innerJsx = (
-      <div className="swatch-inner" style={{ backgroundColor: color }} />
+      <div className="swatch-inner" style={{ backgroundColor: swatch.color }}>
+        { showLabel ? labelJsx : null}
+      </div>
     )
   }
 
@@ -48,7 +59,7 @@ const Swatch = ({width, height, color, onClick}) => {
 };
 
 Swatch.propTypes = {
-  color: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  swatch: PropTypes.object.isRequired,
   onClick: PropTypes.func,
 }
 
